@@ -5,28 +5,36 @@ var remainingAlphabet = [];
 var isGoodGuess=false;
 var isMatchedLetter = false;
 var displayString=""
+var whereDoesGuessedLetterMatch=[];
 
 
 // for loop 0-25 to populate upper alphabet --> remaining alphabet
-
+for (var i=0; i<25;i++){
+	remainingAlphabet.push(string.fromCharCode(65+i));
+}
 
 // populate array with list of animal names
-
+var longListOfMammals=["cow", "goat", "donkey", "monkey"];
 
 // pick random word from array. assign to theWord
-var theWord="monkey"; //placeholder until above gets done
+var theWord=longListOfMammals[Math.floor(Math.random*longListOfMammals.length)];
+
+// populate string of '_' of appropriate length
 for (i=0; i<theWord.length;i++){
 	displayString=displayString.push("_");
 }
 
 // loop until guessed more than allowable guesses
-do (until userGuesses.length >= allowedGuesses){
+do {
 	
 	userCurrentGuess = prompt("What letter?");
-	userCurrentGuess=userCurrentGuess.touppercase();
+	userCurrentGuess=userCurrentGuess.toUpperCase();
 	isGoodGuess=true;
 	
 	// trap to make sure guess is in alphabet
+	if (!("A"<= userCurrentGuess && userCurrentGuess<="Z")){
+		isGoodGuess=false;
+	}
 
 	// trap to make sure guess is new.  
 	for (var i=0;(i<userGuesses.length && isGoodGuess);i++){
@@ -37,17 +45,34 @@ do (until userGuesses.length >= allowedGuesses){
 
 	/* see if user guess is in theWord */
 	isMatchedLetter=false;
-	for (var i=0; i<theWord.length && !isMatchedLetter;i++){
+	for (var i=0; i<theWord.length;i++){
 		if (userCurrentGuess==theWord[i]){
+			whereDoesGuessedLetterMatch.push(i);
 			isMatchedLetter=true;
 		}
 	}
+
 	if (!isMatchedLetter) {
 		userCurrentGuess.push(userCurrentGuess);
 	} else {
 		// write letter to displayString
+		for (var i=0;i<whereDoesGuessedLetterMatch.length;i++){
+			displayString[whereDoesGuessedLetterMatch[i]]=whereDoesGuessedLetterMatch[i];
+		}
 		// remove letter from remaining alphabet
+		for (var i=0;i<remainingAlphabet.length;i++){
+			if (remainingAlphabet[i]==userCurrentGuess){
+				remainingAlphabet.slice(i,1);
+			}
+		}
 		// remove letter from userGuesses
+		
 	}
 
-}
+} while (userGuesses.length <= allowedGuesses);
+
+// this is snipped code to get user input key:
+// document.onkeyup = function(event) {
+// var userInput = event.key;
+// rest of logic;
+// }

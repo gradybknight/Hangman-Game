@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>My First Object</title>
+  </head>
+  <body>
+    <div id="game">
+      <p>Press h, d, w, or t to start playing!</p>
+    </div>
+
+    <script>
+        var longString = "Aardvark.htm|Aardvark|african_elephant.htm|African Elephant|AfricanWildDog.htm|African Wild Dog|african_lion.htm|African Lion|ArabianCamelDromedary.htm|Arabian (Dromedary) Camel Arctic Fox|arctic_hare.htm|Arctic Hare|Armadillo|asian_elephant.htm|Asian Elephant|AsianLion.htm|Asian Lion|Ayeaye.htm|Aye-Aye|Baboon.htm|Baboon|BactrianCamel.htm|Bactrian Camel|beaver.htm|Beaver|black_bear.htm|Bear, Black|BelugaWhale.htm|Beluga Whale|Bengal Tiger|black_bear.htm|Black Bear|Black-Footed Ferret|BlackRhinoceros.htm|Black Rhinoceros|blue_whale.htm|Blue Whale|Bobcat.htm|Bobcat|bottlenosedolphin.htm|Bottlenose Dolphin|BrownBear.htm|Brown Bear|CaliforniaSeaLion.htm|California Sea Lion|Caribou.htm|Caribou|cheetah.htm|Cheetah|Chimpanzee.htm|Chimpanzee|Chipmunk.htm|Chipmunk|CloudedLeopard.htm|Clouded Leopard|CommonVampireBat.htm|Common Vampire Bat</a> CommonWombat.htm|Common Wombat|CottontailRabbit.htm|Cottontail Rabbit|Cougar.htm|Cougar|Coyote.htm|Coyote|dingo.htm|Dingo|DomesticCat.htm|Domestic Cat|DomesticDog.htm|Domestic Dog|Dugong.htm|Dugong|EasternGrayKangaroo.htm|Eastern Gray Kangaroo|african_elephant.htm|Elephant, African|asian_elephant.htm|Elephant, Asian|ElephantSeal.htm|Elephant Seal|moose.htm|Elk (Moose)|fennec_fox.htm|Fennec Fox|Fossa.htm|Fossa|Fur Seal|Gelada|Giant Anteater|giant_panda.htm|Giant Panda|Giant River Otter|Gibbon|giraffe.htm|Giraffe|Golden Lion Tamarin|Gray Whale|Grizzly Bear|Groundhog|Harbor Porpoise|Hare.htm|Hare|arctic_hare.htm|Hare, Arctic|HarpSeal.htm|Harp Seal|HawaiianMonkSeal.htm|Hawaiian Monk Seal|Hedgehog.htm|Hedgehog|hippopotamus.htm|Hippopotamus|horse.htm|Horse|HowlerMonkey.htm|Howler Monkey|humpback_whale.htm|Humpback Whale|Impala.htm|Impala|IndianRhinoceros.htm|Indian Rhinoceros|Jaguar.htm|Jaguar|killer_whale.htm|Killer Whale, Orca|Kinkajou.htm|Kinkajou|koala.htm|Koala|Leopard.htm|Leopard|LeopardSeal.htm|Leopard Seal|LittleRedFlyingFox.htm|Little Red Flying Fox|llama.htm|Llama|Lynx.htm|Lynx|Manatee.htm|Manatee|Mandrill.htm|Mandrill|meerkat.htm|Meerkat|Mongoose.htm|Mongoose|moose.htm|Moose (Elk)|MountainGoat.htm|Mountain Goat|MountainGorilla.htm|Mountain Gorilla|Mountain Lion|MouseLemur.htm|Mouse Lemur|MuskOx.htm|Musk-Ox|Mole Rat|Narwhal|NorthAmericanRiverOtter.htm|North American River Otter|Nutria.htm|Nutria|Ocelot.htm|Ocelot|Opossum.htm|Opossum|Orangutan.htm|Orangutan|killer_whale.htm|Orca Killer Whale|OzarkBig-EaredBat.htm|Ozark Big-Eared Bat|Platypus.htm|Platypus|polar_bear.htm|Polar Bear|Porcupine.htm|Porcupine|PrairieDog.htm|Prairie Dog|ProboscisMonkey.htm|Proboscis Monkey|Pronghorn.htm|Pronghorn|Raccoon.htm|Raccoon|RedFox.htm|Red Fox|red_kangaroo.htm|Red Kangaroo|RedLeafMonkey.htm|Red Leaf Monkey|RedPanda.htm|Red Panda|RedUakari.htm|Red Uakari|RhesusMonkey.htm|Rhesus Monkey|RightWhale.htm|Right Whale|RingedSeal.htm|Ringed Seal|RingTailedLemur.htm|Ring-Tailed Lemur|RockyMountainBighornSheep.htm|Rocky Mountain Bighorn Sheepsea_otter.htm|Sea Otter|SiberianTiger.htm|Siberian Tiger|Sifaka.htm|Sifaka|Skunk.htm|Skunk|SlothBear.htm|Sloth Bear|SnowLeopard.htm|Snow Leopard|SnowshoeHare.htm|Snowshoe Hare|SpectacledBear.htm|Spectacled Bear|sperm_whale.htm|Sperm Whale|SpiderMonkey.htm|Spider Monkey|SpottedHyena.htm|Spotted Hyena|Squirrel.htm|Squirrel|StellerSeaLion.htm|Steller Sea Lion|SumatranRhinoceros.htm|Sumatran Rhinoceros|SumatranTiger.htm|Sumatran Tiger|SunBear.htm|Sun Bear|Tapir.htm|Tapir|tasmanian_devil.htm|Tasmanian Devil|ThomsonsGazelle.htm|Thomson&#8217;s Gazelle|ThreeToedSloth.htm|Three-Toed Sloth|TwoToedSloth.htm|Two-Toed Sloth|Wallaby.htm|Wallaby|Walrus.htm|Walrus|Warthog.htm|Warthog|WaterBuffalo.htm|Water Buffalo|WeddellSeal.htm|Weddell Seal|WesternLowlandGorilla.htm|Western Lowland Gorilla|WhiteRhinoceros.htm|White Rhinoceros|blue_whale.htm|Whale, Blue|humpback_whale.htm|Whale, Humpback|WhiteEaredKob.htm|White-Eared Kob|WhiteTailedDeer.htm|White-Tailed Deer|Wildebeest.htm|Wildebeest|Wolf.htm|Wolf|Wolverine.htm|Wolverine|Zebra.htm";
+        var correctedString="";
+        var intermediateString="";
+        var correctString="";
+        while (longString.length>0){
+            for (var i=0; i<longString.length;i++){
+                if (intermediateString[i]!=="."){
+                    intermediateString=intermediateString+longString[i];
+                    longString.slice(0,1);
+                } else {
+                    longString.slice(0,3);
+                }
+            }
+            correctString=correctedString+", "+intermediateString;
+        }
+        console.log(correctedString);
+    </script>
+    
+  </body>
+</html>
