@@ -6,8 +6,12 @@ var isGoodGuess=false;
 var isMatchedLetter = false;
 var displayString=""
 var whereDoesGuessedLetterMatch=[];
+var theWord=""
+var longListOfMammals=[];
+var ctrBadGuesses=0;
 
-//NEED TO REWRITE THIS USING AN OBJECT{ARRAY WHERE LETTER MATCHES, LETTER_GUESS}
+//Questions
+// Declared remainingAlphabet as variable at the script level.  Is this treated as global?  Can I change it inside a function?
 
 
 function PopulateStartingAlphabet(){
@@ -15,7 +19,6 @@ function PopulateStartingAlphabet(){
 	for (var i=0; i<25;i++){
 		remainingAlphabet.push(string.fromCharCode(65+i));
 	}
-	return remainingAlphabet;
 }
 
 function PopulateListOfMammals(){
@@ -39,59 +42,56 @@ function PopulateStartingStringOfBlanks(){
 function IsLetterInAlphabet(x){
 	if ("A"<= x && x<="Z"){
 		return true;
-	} else
+	} else{
 		return false;
 	}
 }
 
+function IsNewLetter(theLetter){
+	for (var i=0; i<remainingAlphabet.length; i++){
+		if (theLetter==remainingAlphabet[i]){
+			return false;
+			break;
+		} else {
+			return true;
+		}
+	}
+}
+
+function RemoveLetterFromAlphabet(theLetter){
+	for (var i=0; i<remainingAlphabet.length; i++){
+		if (theLetter == remainingAlphabet[i]) {
+			remainingAlphabet.splice(i,1);
+			break;
+		}
+	}
+}
+
+PopulateListOfMammals;
+ChooseMammalFromList;
+PopulateStartingAlphabet;
+PopulateStartingStringOfBlanks;
+console.log(theWord);
+console.log(displayString);
+ctrBadGuesses=0;
 
 
 // loop until guessed more than allowable guesses
 do {
-	userCurrentGuess = prompt("What letter?");
-	userCurrentGuess=userCurrentGuess.toUpperCase();
-	isGoodGuess=true;
-	
-	// trap to make sure guess is in alphabet
-	if (IsLetterInAlphabet(userCurrentGuess)){
-		isGoodGuess=true;
-	} else {
-		isGoodGuess=false;
-	}
-
-	// trap to make sure guess is new.  
-	for (var i=0;(i<userGuesses.length && isGoodGuess);i++){
-		if (userCurrentGuess==userGuesses[i]) {
-			isGoodGuess=false;
-		} 
-	}
-
-	if (isGoodGuess) {
-		/* see if user guess is in theWord */
-		isMatchedLetter=false;
-		for (var i=0; i<theWord.length; i++){
-			if (userCurrentGuess==theWord[i]){
-				whereDoesGuessedLetterMatch.push(i);
+	userCurrentGuess = prompt("What letter?");                                   		//Get the user's letter
+	userCurrentGuess=userCurrentGuess.toUpperCase();									//make it uppercase
+	if (IsLetterInAlphabet(userCurrentGuess) && IsNewLetter(userCurrentGuess)) {		//make sure its a letter and not used already
+		isMatchedLetter=false;					
+		for (var i=0; i<theWord.length;i++){											//walk through computer's word and replace blanks if matched
+			if (userCurrentGuess==theWord[i]) {
+				displayString[i]=userCurrentGuess;
 				isMatchedLetter=true;
 			}
 		}
-
-		if (!isMatchedLetter) {
-			userGuesses.push(userCurrentGuess);
-		} else {
-			// write letter to displayString
-			for (var i=0;i<whereDoesGuessedLetterMatch.length;i++){
-				displayString[whereDoesGuessedLetterMatch[i]]=whereDoesGuessedLetterMatch[i];
-			}
-			// remove letter from remaining alphabet
-			for (var i=0;i<remainingAlphabet.length;i++){
-				if (remainingAlphabet[i]==userCurrentGuess){
-					remainingAlphabet.slice(i,1);
-				}
-			}
-			// remove letter from userGuesses
-
+		if (!isMatchedLetter){															//increment bad guess counter if not matched
+			ctrBadGuesses++;
 		}
+		RemoveLetterFromAlphabet;														//remove letter from non already guessed alphabet
 	}
 } while (userGuesses.length <= allowedGuesses);
 
