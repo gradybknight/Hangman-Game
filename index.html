@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hangman Game</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div id="game">
+          <p>Press a letter in the alphabet</p>
+        </div>
+    
+        <script>
+            var userCurrentGuess="";    // current letter.  need to trap to Upper
+            var allowedGuesses=7;      // allowed # of wrong guesses (head, neck, 2xarm, body, 2xleg)
+            var remainingAlphabet = [];
+            var isMatchedLetter = false;
+            var displayString=""
+            var theWord=""
+            var longListOfMammals=["cow", "goat", "donkey", "monkey"];
+            var ctrBadGuesses=0;
+            var isUserWinner=false;
+            var isGoodGuess=false;
+
+            //Questions
+            // Declared remainingAlphabet as variable at the script level.  Is this treated as global?  Can I change it inside a function?
+
+            function PopulateStartingAlphabet(){
+                // for loop 0-25 to populate upper alphabet --> remaining alphabet
+                for (var i=0; i<26;i++){
+                    remainingAlphabet[i]=(String.fromCharCode(65+i));
+                }
+            }
+
+
+            function PopulateListOfMammals(){
+                // populate array with list of animal names
+                var longListOfMammals=["cow", "goat", "donkey", "monkey"];
+            }
+
+            function ChooseMammalFromList(){
+                // pick random word from array. assign to theWord
+                theWord=longListOfMammals[Math.floor(Math.random()*longListOfMammals.length)];
+                theWord=theWord.toUpperCase();
+            
+            }
+
+            function PopulateStartingStringOfBlanks(){
+                // populate string of '_' of appropriate length
+                for (i=0; i<theWord.length;i++){
+                    displayString=displayString+"_";
+                }
+            }
+
+            function IsLetterInAlphabet(x){
+                if ("A"<= x && x<="Z"){
+                    return true;
+                } else{
+                    return false;
+                }
+            }
+
+            function IsNewLetter(theLetter){
+                for (var i=0; i<remainingAlphabet.length; i++){
+                    if (theLetter==remainingAlphabet[i]){
+                        return true;
+                        break;
+                    } 
+                }
+                return false;
+            }
+
+            function RemoveLetterFromAlphabet(theLetter){
+                for (var i=0; i<remainingAlphabet.length; i++){
+                    if (theLetter == remainingAlphabet[i]) {
+                        remainingAlphabet.splice(i,1);
+                        break;
+                    }
+                }
+            }
+
+            function IsAllBlanksRemoved(){
+                for (var i=0;i<displayString.length;i++){
+                    if (displayString[i]=="_"){
+                        return false;
+                        break;
+                    }
+                }
+                return true;
+            }
+
+            function ReplaceCharacterAtPositionWith(character,position,string){
+                var originalString=string;
+                var newString="";
+                for (var i=0;i<originalString.length;i++){
+                    if (i<position || i>position){
+                        newString=newString+originalString[i];
+                    } else {
+                        newString=newString+character;
+                    }
+                }
+                return newString;
+            }
+
+            // PopulateListOfMammals();
+            ChooseMammalFromList();
+            PopulateStartingStringOfBlanks();
+            PopulateStartingAlphabet();
+            console.log(theWord);
+            console.log(displayString);
+            ctrBadGuesses=0;
+
+            document.onkeyup = function(event) {
+                var userInput = event.key;
+                userCurrentGuess = userInput;                                                 		//Get the user's letter
+                userCurrentGuess=userCurrentGuess.toUpperCase();		                            //make it uppercase
+                if (IsLetterInAlphabet(userCurrentGuess) && IsNewLetter(userCurrentGuess)) {		//make sure its a letter and not used already
+                    isMatchedLetter=false;					
+                    for (var i=0; i<theWord.length;i++){											//walk through computer's word and replace blanks if matched
+                        if (userCurrentGuess==theWord[i]) {
+                            displayString=ReplaceCharacterAtPositionWith(userCurrentGuess,i,displayString);
+                            isMatchedLetter=true;
+                        }
+                    }
+                    if (!isMatchedLetter){															//increment bad guess counter if not matched
+                        ctrBadGuesses++;
+                    }
+                    RemoveLetterFromAlphabet(userCurrentGuess);														//remove letter from non already guessed alphabet
+                }
+                if (IsAllBlanksRemoved()) {
+                    isUserWinner=true;
+                    console.log("you won");
+                }
+                if (ctrBadGuesses>=allowedGuesses){
+                    console.log("you lost");
+                }
+                console.log("The word is "+ theWord + ". Display String is: " + displayString + "There are " +remainingAlphabet.length + "letters left in the alphabet and you have guessed wrong " + ctrBadGuesses)
+            }
+
+
+
+        </script>
+        
+      </body>
+</html>

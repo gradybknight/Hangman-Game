@@ -1,15 +1,15 @@
 var userCurrentGuess="";    // current letter.  need to trap to Upper
-var allowedGuesses=10;      // allowed # of wrong guesses
+var allowedGuesses=7;      // allowed # of wrong guesses (head, neck, 2xarm, body, 2xleg)
 var remainingAlphabet = [];
 var isMatchedLetter = false;
 var displayString=""
 var theWord=""
 var longListOfMammals=[];
 var ctrBadGuesses=0;
+var isUserWinner=false;
 
 //Questions
 // Declared remainingAlphabet as variable at the script level.  Is this treated as global?  Can I change it inside a function?
-
 
 function PopulateStartingAlphabet(){
 	// for loop 0-25 to populate upper alphabet --> remaining alphabet
@@ -18,15 +18,15 @@ function PopulateStartingAlphabet(){
 	}
 }
 
+
 function PopulateListOfMammals(){
 	// populate array with list of animal names
 	var longListOfMammals=["cow", "goat", "donkey", "monkey"];
-	return longListOfMammals;
 }
 
 function ChooseMammalFromList(){
 	// pick random word from array. assign to theWord
-	var theWord=longListOfMammals[Math.floor(Math.random*longListOfMammals.length)];
+	var theWord=longListOfMammals[Math.floor(Math.random*longListOfMammals.length)].toUpperCase();
 }
 
 function PopulateStartingStringOfBlanks(){
@@ -64,10 +64,20 @@ function RemoveLetterFromAlphabet(theLetter){
 	}
 }
 
+function IsAllBlanksRemoved(){
+	for (var i=0;i<displayString.length;i++){
+		if (displayString[i]=="_"){
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+
 PopulateListOfMammals;
 ChooseMammalFromList;
-PopulateStartingAlphabet;
 PopulateStartingStringOfBlanks;
+PopulateStartingAlphabet;
 console.log(theWord);
 console.log(displayString);
 ctrBadGuesses=0;
@@ -90,7 +100,10 @@ do {
 		}
 		RemoveLetterFromAlphabet;														//remove letter from non already guessed alphabet
 	}
-} while (userGuesses.length <= allowedGuesses);
+	if (IsAllBlanksRemoved) {
+		isUserWinner=true;
+	}
+} while ((ctrBadGuesses < allowedGuesses) && !isUserWinner);
 
 // this is snipped code to get user input key:
 // document.onkeyup = function(event) {
