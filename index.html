@@ -22,7 +22,7 @@
             var isMatchedLetter = false;
             var displayString=""
             var theWord=""
-            var longListOfMammals=["cow", "goat", "donkey", "monkey"];
+            var longListOfMammals=["cow", "goat", "donkey", "monkey", "gorilla"];
             var ctrBadGuesses=0;
             var isUserWinner=false;
             var isGoodGuess=false;
@@ -35,12 +35,6 @@
                 for (var i=0; i<26;i++){
                     remainingAlphabet[i]=(String.fromCharCode(65+i));
                 }
-            }
-
-
-            function PopulateListOfMammals(){
-                // populate array with list of animal names
-                var longListOfMammals=["cow", "goat", "donkey", "monkey"];
             }
 
             function ChooseMammalFromList(){
@@ -107,7 +101,6 @@
                 return newString;
             }
 
-            // PopulateListOfMammals();
             ChooseMammalFromList();
             PopulateStartingStringOfBlanks();
             PopulateStartingAlphabet();
@@ -139,7 +132,7 @@
                 if (ctrBadGuesses>=allowedGuesses){
                     console.log("you lost");
                 }
-                console.log("The word is "+ theWord + ". Display String is: " + displayString + "There are " +remainingAlphabet.length + "letters left in the alphabet and you have guessed wrong " + ctrBadGuesses)
+                console.log("The word is "+ theWord + ". Display String is: " + displayString + ". There are " +remainingAlphabet.length + "letters left in the alphabet and you have guessed wrong " + ctrBadGuesses)
             }
 
 
