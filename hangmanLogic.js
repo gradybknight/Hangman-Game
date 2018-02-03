@@ -1,11 +1,8 @@
-var userGuesses = [];       // letters already guessed that are wrong
 var userCurrentGuess="";    // current letter.  need to trap to Upper
 var allowedGuesses=10;      // allowed # of wrong guesses
 var remainingAlphabet = [];
-var isGoodGuess=false;
 var isMatchedLetter = false;
 var displayString=""
-var whereDoesGuessedLetterMatch=[];
 var theWord=""
 var longListOfMammals=[];
 var ctrBadGuesses=0;
