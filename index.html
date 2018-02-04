@@ -9,11 +9,45 @@
         <title>Hangman Game</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
     </head>
     <body>
         <div id="game">
-          <p>Press a letter in the alphabet</p>
+          
         </div>
+
+        <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Let's play hangman.  You get 7 guesses</h1>
+              </div>
+            </div>  
+            <div class "row">
+                <div class="col-md-6">
+                  <h2><span id="userWins">Wins:</span></h2>
+                </div>
+                <div class="col-md-6">
+                    <h2><span id="userLosses">Losses:</span></h2>
+                </div>
+            </div>
+            <div class "row">
+              <div class="col-md-12">
+                <h2><span id="remainingAlphabet"></span></h2>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h1><span id="stringOfBlanks"></span></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><span id="numberWrong"></span></h3>
+                </div>
+            </div>
+        </div>  
     
         <script>
             var userCurrentGuess="";    // current letter.  need to trap to Upper
@@ -26,15 +60,35 @@
             var ctrBadGuesses=0;
             var isUserWinner=false;
             var isGoodGuess=false;
-
-            //Questions
-            // Declared remainingAlphabet as variable at the script level.  Is this treated as global?  Can I change it inside a function?
+            var ctrWins=0;
+            var ctrLosses=0;
+            var isGameOver=false;
+            var displayStringWithSpaces="";
 
             function PopulateStartingAlphabet(){
                 // for loop 0-25 to populate upper alphabet --> remaining alphabet
                 for (var i=0; i<26;i++){
                     remainingAlphabet[i]=(String.fromCharCode(65+i));
+
                 }
+                RefreshRemainingAlphabet()
+            }
+
+            function RefreshWinsAndLosses(){
+                var scoreUpdater = document.getElementById("userWins");
+                scoreUpdater.textContent = "Wins: " + ctrWins;
+                var scoreUpdater = document.getElementById("userLosses");
+                scoreUpdater.textContent = "Losses: " + ctrLosses;
+            }
+            
+            function RefreshRemainingAlphabet(){
+                var remainingAlphabetText = document.getElementById("remainingAlphabet");
+                remainingAlphabetText.textContent = "Here are the letters you have not guessed: " + remainingAlphabet;
+            }
+
+            function RefreshNumberWrong(){
+                var numberWrongText = document.getElementById("numberWrong");
+                numberWrongText.textContent = "You have guessed wrong " + ctrBadGuesses + " times.";
             }
 
             function ChooseMammalFromList(){
@@ -44,11 +98,30 @@
             
             }
 
+            function AddSpacesToDisplayString(){
+                displayStringWithSpaces="";
+                for (var i=0; i<displayString.length;i++){
+                    if (i==0){
+                        displayStringWithSpaces=displayString[0];
+                    } else {
+                        displayStringWithSpaces = displayStringWithSpaces + " " + displayString[i];
+                    }
+                }
+            }
+
+            function RefreshStringOfBlanks(){
+                var stringOfBlanksText=document.getElementById("stringOfBlanks");
+                AddSpacesToDisplayString();
+                stringOfBlanksText.textContent = displayStringWithSpaces;
+            }
+
             function PopulateStartingStringOfBlanks(){
                 // populate string of '_' of appropriate length
+                displayString="";
                 for (i=0; i<theWord.length;i++){
                     displayString=displayString+"_";
                 }
+                RefreshStringOfBlanks();
             }
 
             function IsLetterInAlphabet(x){
@@ -101,17 +174,18 @@
                 return newString;
             }
 
+            
+
             ChooseMammalFromList();
             PopulateStartingStringOfBlanks();
             PopulateStartingAlphabet();
-            console.log(theWord);
-            console.log(displayString);
             ctrBadGuesses=0;
 
             document.onkeyup = function(event) {
+            if (!isGameOver) {
                 var userInput = event.key;
                 userCurrentGuess = userInput;                                                 		//Get the user's letter
-                userCurrentGuess=userCurrentGuess.toUpperCase();		                            //make it uppercase
+                userCurrentGuess=userCurrentGuess.toUpperCase();	                            
                 if (IsLetterInAlphabet(userCurrentGuess) && IsNewLetter(userCurrentGuess)) {		//make sure its a letter and not used already
                     isMatchedLetter=false;					
                     for (var i=0; i<theWord.length;i++){											//walk through computer's word and replace blanks if matched
@@ -124,15 +198,28 @@
                         ctrBadGuesses++;
                     }
                     RemoveLetterFromAlphabet(userCurrentGuess);														//remove letter from non already guessed alphabet
+                    RefreshRemainingAlphabet();
+                    RefreshStringOfBlanks(); 
+                    RefreshNumberWrong();  	
                 }
                 if (IsAllBlanksRemoved()) {
-                    isUserWinner=true;
-                    console.log("you won");
+                    isGameOver=true;
+                    ctrWins++;
                 }
-                if (ctrBadGuesses>=allowedGuesses){
-                    console.log("you lost");
+                if (ctrBadGuesses>allowedGuesses){
+                    isGameOver=true;
+                    ctrLosses++;
                 }
-                console.log("The word is "+ theWord + ". Display String is: " + displayString + ". There are " +remainingAlphabet.length + "letters left in the alphabet and you have guessed wrong " + ctrBadGuesses)
+            } 
+            if (isGameOver){
+                ChooseMammalFromList();
+                PopulateStartingStringOfBlanks();
+                PopulateStartingAlphabet();
+                RefreshWinsAndLosses();
+                isGameOver=false;
+                ctrBadGuesses=0; 
+                RefreshNumberWrong();  
+            }    
             }
 
 
