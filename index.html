@@ -33,8 +33,11 @@
                 </div>
             </div>
             <div class "row">
-              <div class="col-md-12">
-                <h2><span id="remainingAlphabet"></span></h2>
+                <div class="col-md-12">
+                    <h2>These letters haven't been guessed:</h2>
+                  </div>
+                <div class="col-md-12">
+                <h2><span id="remainingAlphabet" "word-wrap:break-word"></span></h2>
               </div>
             </div>
             <div class="row">
@@ -83,7 +86,7 @@
             
             function RefreshRemainingAlphabet(){
                 var remainingAlphabetText = document.getElementById("remainingAlphabet");
-                remainingAlphabetText.textContent = "Here are the letters you have not guessed: " + remainingAlphabet;
+                remainingAlphabetText.textContent = remainingAlphabet;
             }
 
             function RefreshNumberWrong(){
@@ -212,6 +215,7 @@
                 }
             } 
             if (isGameOver){
+                alert("the animal was "+ theWord);
                 ChooseMammalFromList();
                 PopulateStartingStringOfBlanks();
                 PopulateStartingAlphabet();
